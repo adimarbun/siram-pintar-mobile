@@ -2,15 +2,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:siram_pintar_mobile/cubits/add_plant/add_plant_cubit.dart';
 import 'package:siram_pintar_mobile/cubits/auth/auth_cubit.dart';
 import 'package:siram_pintar_mobile/cubits/auth/auth_state.dart';
 import 'package:siram_pintar_mobile/cubits/login/login_cubit.dart';
+import 'package:siram_pintar_mobile/cubits/plants/plants_cubit.dart';
 import 'package:siram_pintar_mobile/cubits/register/register_cubit.dart';
 import 'package:siram_pintar_mobile/pages/home/home_page.dart';
 import 'package:siram_pintar_mobile/pages/login/login_page.dart';
 import 'package:siram_pintar_mobile/pages/profile/profile_page.dart';
 import 'package:siram_pintar_mobile/repositories/auth_repository.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:siram_pintar_mobile/repositories/plant_repository.dart';
 import 'package:siram_pintar_mobile/utils/api_client.dart';
 
 void main() async {
@@ -37,6 +40,16 @@ void main() async {
         BlocProvider(
           create: (context) => RegisterCubit(
             authRepository: AuthRepository(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => PlantsCubit(
+            plantRepository: PlantRepository(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => AddPlantCubit(
+            plantRepository: PlantRepository(),
           ),
         ),
       ],
