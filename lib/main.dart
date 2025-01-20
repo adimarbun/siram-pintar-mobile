@@ -2,9 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:siram_pintar_mobile/cubits/add_device_plant/add_device_plant_cubit.dart';
 import 'package:siram_pintar_mobile/cubits/add_plant/add_plant_cubit.dart';
 import 'package:siram_pintar_mobile/cubits/auth/auth_cubit.dart';
 import 'package:siram_pintar_mobile/cubits/auth/auth_state.dart';
+import 'package:siram_pintar_mobile/cubits/devices_plant/devices_plant_cubit.dart';
 import 'package:siram_pintar_mobile/cubits/login/login_cubit.dart';
 import 'package:siram_pintar_mobile/cubits/plants/plants_cubit.dart';
 import 'package:siram_pintar_mobile/cubits/register/register_cubit.dart';
@@ -13,8 +15,12 @@ import 'package:siram_pintar_mobile/pages/login/login_page.dart';
 import 'package:siram_pintar_mobile/pages/profile/profile_page.dart';
 import 'package:siram_pintar_mobile/repositories/auth_repository.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:siram_pintar_mobile/repositories/device_repository.dart';
 import 'package:siram_pintar_mobile/repositories/plant_repository.dart';
 import 'package:siram_pintar_mobile/utils/api_client.dart';
+import 'package:siram_pintar_mobile/utils/navigation.dart';
+
+final globalKey = GlobalKey();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +58,16 @@ void main() async {
             plantRepository: PlantRepository(),
           ),
         ),
+        BlocProvider(
+          create: (context) => DevicesPlantCubit(
+            deviceRepository: DeviceRepository(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => AddDevicePlantCubit(
+            deviceRepository: DeviceRepository(),
+          ),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -65,6 +81,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      navigatorKey: Navigation.navigatorKey,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(backgroundColor: Colors.white),

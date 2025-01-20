@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Navigation {
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
+
   static Future<T?> push<T>(BuildContext context, Widget page) =>
       Navigator.push(
         context,

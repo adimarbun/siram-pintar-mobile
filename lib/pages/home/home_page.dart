@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siram_pintar_mobile/cubits/plants/plants_cubit.dart';
 import 'package:siram_pintar_mobile/cubits/plants/plants_state.dart';
+import 'package:siram_pintar_mobile/models/plant_detail_page_parameter_model.dart';
 import 'package:siram_pintar_mobile/pages/add_plant/add_plant_page.dart';
+import 'package:siram_pintar_mobile/pages/plant_detail/plant_detail_page.dart';
 import 'package:siram_pintar_mobile/utils/navigation.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -75,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: TextStyle(color: Colors.grey),
                                   ),
                                   trailing: const Icon(Icons.chevron_right),
-                                  onTap: () {},
+                                  onTap: () =>  Navigation.push(context, PlantDetailPage(params: PlantDetailPageParameterModel(plantData: plant,))),
                                 );
                               },
                             ),

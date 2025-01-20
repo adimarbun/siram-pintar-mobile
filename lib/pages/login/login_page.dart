@@ -31,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Form(
       key: _formKey,
       child: Scaffold(

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:siram_pintar_mobile/models/login_response_model.dart';
 import 'package:siram_pintar_mobile/models/plants_response_model.dart';
 
 abstract class PlantsState extends Equatable {}
