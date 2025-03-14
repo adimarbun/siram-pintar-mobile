@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:siram_pintar_mobile/models/devices_plant_response_model.dart';
+import 'package:siram_pintar_mobile/utils/mqtt_service.dart'; 
 
 class PumpDeviceWidget extends StatefulWidget {
   final DeviceData deviceData;
@@ -15,6 +16,25 @@ class PumpDeviceWidget extends StatefulWidget {
 
 class _PumpDeviceWidgetState extends State<PumpDeviceWidget> {
   bool _isActive = false;
+  late MqttService mqttService;
+
+  @override
+  void initState() {
+    super.initState();
+    mqttService = MqttService();
+    mqttService.connect(); // Koneksi ke MQTT saat widget dibuat
+  }
+
+  void _togglePump() {
+    setState(() {
+      _isActive = !_isActive;
+    });
+
+    // Publish ke MQTT
+    String topic = 'home/garden/sensor';
+    String message = _isActive ? 'ON' : 'OFF';
+    mqttService.publish(topic, message);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +50,7 @@ class _PumpDeviceWidgetState extends State<PumpDeviceWidget> {
                 ),
                 padding: const EdgeInsets.all(8),
                 child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      _isActive = !_isActive;
-                    });
-                  },
+                  onTap: _togglePump, // Panggil fungsi saat tombol ditekan
                   child: Column(
                     children: [
                       Container(
