@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:siram_pintar_mobile/models/devices_plant_response_model.dart';
 import 'package:siram_pintar_mobile/utils/mqtt_service.dart'; 
+import 'dart:convert'; 
+
 
 class PumpDeviceWidget extends StatefulWidget {
   final DeviceData deviceData;
@@ -21,8 +23,9 @@ class _PumpDeviceWidgetState extends State<PumpDeviceWidget> {
   @override
   void initState() {
     super.initState();
+    _isActive = widget.deviceData.isOn;
     mqttService = MqttService();
-    mqttService.connect(); // Koneksi ke MQTT saat widget dibuat
+    mqttService.connect(); 
   }
 
   void _togglePump() {
@@ -30,9 +33,13 @@ class _PumpDeviceWidgetState extends State<PumpDeviceWidget> {
       _isActive = !_isActive;
     });
 
-    // Publish ke MQTT
-    String topic = 'home/garden/sensor';
-    String message = _isActive ? 'ON' : 'OFF';
+    String topic = widget.deviceData.deviceType;
+    Map<String, dynamic> payload = {
+      'device_key': widget.deviceData.deviceKey,
+      'status': _isActive ? 'ON' : 'OFF',
+    };
+
+    String message = jsonEncode(payload);
     mqttService.publish(topic, message);
   }
 

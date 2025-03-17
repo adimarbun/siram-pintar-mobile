@@ -38,6 +38,8 @@ class DeviceData extends Equatable {
   final int plantId;
   final String deviceName;
   final String deviceType;
+  final String deviceKey;
+  final bool isOn;
   final String createdAt;
 
   const DeviceData({
@@ -45,6 +47,8 @@ class DeviceData extends Equatable {
     required this.plantId,
     required this.deviceName,
     required this.deviceType,
+    required this.deviceKey,
+    required this.isOn,
     required this.createdAt,
   });
 
@@ -57,6 +61,8 @@ class DeviceData extends Equatable {
       plantId: json['plant_id'],
       deviceName: json['device_name'],
       deviceType: json['device_type'],
+      deviceKey: json['device_key'],
+      isOn: json['is_on'],
       createdAt: json['created_at'],
     );
   }
@@ -67,6 +73,8 @@ class DeviceData extends Equatable {
       'plant_id': plantId,
       'device_name': deviceName,
       'device_type': deviceType,
+      'devicekey': deviceKey,
+      'is_on': isOn,
       'created_at': createdAt,
     };
   }
