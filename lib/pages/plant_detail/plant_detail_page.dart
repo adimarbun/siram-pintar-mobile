@@ -8,6 +8,7 @@ import 'package:siram_pintar_mobile/pages/add_device/add_device_page.dart';
 import 'package:siram_pintar_mobile/pages/plant_detail/widgets/pump_device_widget.dart';
 import 'package:siram_pintar_mobile/pages/plant_detail/widgets/sensor_device_widget.dart';
 import 'package:siram_pintar_mobile/utils/navigation.dart';
+import 'package:siram_pintar_mobile/pages/plant_detail/automation_page.dart';
 
 class PlantDetailPage extends StatefulWidget {
   final PlantDetailPageParameterModel params;
@@ -92,7 +93,14 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => AutomationListPage(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     backgroundColor: Colors.black,
