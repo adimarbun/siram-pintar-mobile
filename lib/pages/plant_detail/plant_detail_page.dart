@@ -9,6 +9,7 @@ import 'package:siram_pintar_mobile/pages/plant_detail/widgets/pump_device_widge
 import 'package:siram_pintar_mobile/pages/plant_detail/widgets/sensor_device_widget.dart';
 import 'package:siram_pintar_mobile/utils/navigation.dart';
 import 'package:siram_pintar_mobile/pages/plant_detail/automation_page.dart';
+import 'package:siram_pintar_mobile/pages/plant_detail/sensor_history_page.dart';
 
 class PlantDetailPage extends StatefulWidget {
   final PlantDetailPageParameterModel params;
@@ -84,6 +85,14 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                           if (data.deviceType == 'Sensor')
                             SensorDeviceWidget(
                               deviceData: data,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => SensorHistoryPage(sensorDeviceData: data),
+                                  ),
+                                );
+                              },
                             ),
                       ],
                     ),
