@@ -2,11 +2,12 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 class MqttService {
-  final String broker = 'sirampintar.site'; // Ganti dengan broker kamu
+  final String broker = 'sirampintar.site';
   final int port = 1883;
   final String clientId = '';
   late MqttServerClient client;
 
+  Function(String topic, String payload)? _onMessageReceived; // Tambahkan ini
 
   MqttService() {
     client = MqttServerClient(broker, clientId);
@@ -19,7 +20,7 @@ class MqttService {
   Future<void> connect() async {
     client.logging(on: true);
     client.secure = false;
-    client.setProtocolV311(); // MQTT versi 3.1.1
+    client.setProtocolV311();
     client.onConnected = _onConnected;
     client.onDisconnected = _onDisconnected;
 
@@ -45,23 +46,33 @@ class MqttService {
     client.updates?.listen((List<MqttReceivedMessage<MqttMessage?>>? messages) {
       final MqttPublishMessage message = messages![0].payload as MqttPublishMessage;
       final payload = MqttPublishPayload.bytesToStringAsString(message.payload.message);
-      print('Received: $payload');
+      final topicReceived = messages[0].topic;
+      
+      print('Received: $payload on topic: $topicReceived');
+
+      if (_onMessageReceived != null) {
+        _onMessageReceived!(topicReceived, payload); // Kirim ke listener
+      }
     });
   }
 
   void publish(String topic, String message) {
     if (client.connectionStatus?.state == MqttConnectionState.connected) {
-        final builder = MqttClientPayloadBuilder();
-        builder.addString(message);
-        client.publishMessage(topic, MqttQos.exactlyOnce, builder.payload!);
-        print('Published: $message to topic: $topic');
+      final builder = MqttClientPayloadBuilder();
+      builder.addString(message);
+      client.publishMessage(topic, MqttQos.exactlyOnce, builder.payload!);
+      print('Published: $message to topic: $topic');
     } else {
-        print('Cannot publish, MQTT client is not connected');
+      print('Cannot publish, MQTT client is not connected');
     }
-    }
-
+  }
 
   void disconnect() {
     client.disconnect();
+  }
+
+  // Setter untuk callback listener
+  void setOnMessageReceived(Function(String topic, String payload) callback) {
+    _onMessageReceived = callback;
   }
 }

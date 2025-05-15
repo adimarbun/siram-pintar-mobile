@@ -106,7 +106,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => AutomationListPage(),
+                        builder: (_) => AutomationListPage(plantId: widget.params.plantData.id),
                       ),
                     );
                   },
